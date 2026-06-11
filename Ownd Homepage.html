@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ownd — Rent to Own Property Marketplace</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Green scale */
+    --green-50: #CCFF66;
+    --green-100: #79F233;
+    --green-200: #5BD239;
+    --green-300: #3DB140;
+    --green-400: #1E9146;
+    --green-500: #00704C;
+    --green-600: #026147;
+    --green-700: #045242;
+    --green-800: #06443D;
+    --green-900: #083538;
+    --green-1000: #0A2633;
+    /* Gray scale */
+    --gray-50: #FFFFFF;
+    --gray-100: #FCFCFC;
+    --gray-200: #F4F4F5;
+    --gray-300: #E4E5E6;
+    --gray-400: #D1D3D5;
+    --gray-500: #BFC1C4;
+    --gray-600: #A0A3A7;
+    --gray-700: #80848A;
+    --gray-800: #60646B;
+    --gray-900: #40444B;
+    --gray-1000: #1A1D24;
+    /* Semantic */
+    --ink: #0A2633;
+    --ink-soft: #40444B;
+    --muted: #80848A;
+    --bg: #F4F4F5;
+    --surface: #FFFFFF;
+    --line: #E4E5E6;
+    --primary: #00704C;
+    --primary-soft: #E6F4EE;
+    --accent: #79F233;
+    --line-green: #06C755;
+    /* Radii */
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 20px;
+    --r-xl: 28px;
+    --r-2xl: 36px;
+    --r-pill: 999px;
+    /* Shadows */
+    --sh-sm: 0 1px 2px rgba(10,38,51,0.05);
+    --sh-md: 0 6px 16px rgba(10,38,51,0.06), 0 2px 4px rgba(10,38,51,0.04);
+    --sh-lg: 0 18px 40px rgba(10,38,51,0.08), 0 4px 12px rgba(10,38,51,0.04);
+    --sh-card: 0 1px 0 rgba(10,38,51,0.04), 0 12px 28px rgba(10,38,51,0.06);
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Prompt', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .latin { font-family: 'Plus Jakarta Sans', 'Prompt', sans-serif; }
+  button { font-family: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent); color: var(--green-1000); }
+
+  /* Placeholder striped surface for images */
+  .ph {
+    position: relative;
+    background-color: var(--gray-300);
+    background-image:
+      repeating-linear-gradient(135deg,
+        rgba(10,38,51,0.05) 0 2px,
+        transparent 2px 14px);
+    overflow: hidden;
+    color: var(--gray-800);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Plus Jakarta Sans', monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .ph::after {
+    content: ""; position: absolute; inset: 12px;
+    border: 1px dashed rgba(10,38,51,0.18);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .ph-label {
+    position: relative; z-index: 1;
+    background: rgba(255,255,255,0.85);
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* Page shell */
+  .page { max-width: 1440px; margin: 0 auto; padding: 24px 32px 80px; }
+
+  /* === TOP BAR === */
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .brand-link {
+    display: inline-flex; align-items: center;
+    margin-left: -10px;
+    padding: 6px 14px 6px 10px;
+    border-radius: var(--r-pill);
+    transition: background 200ms ease, transform 200ms ease;
+  }
+  .brand-link:hover { background: rgba(0,112,76,0.06); }
+  .brand-img {
+    height: 112px; width: auto; display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(10,38,51,0.10));
+    filter: drop-shadow(0 2px 8px rgba(10,38,51,0.06));
+    transition: transform 200ms ease;
+  }
+  .brand-link:hover .brand-img { transform: scale(1.03); }
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: var(--r-pill);
+    font-weight: 600; font-size: 14px;
+    border: 1px solid transparent;
+    transition: transform 150ms ease, box-shadow 200ms ease, background 200ms ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-dark {
+    background: var(--gray-800); color: #fff;
+  }
+  .btn-dark:hover { background: var(--gray-900); }
+  .btn-line {
+    background: var(--line-green); color: #fff;
+  }
+  .btn-line:hover { background: #05a948; }
+  .btn-login {
+    background: #fff; color: var(--ink);
+    border-color: var(--line);
+    box-shadow: var(--sh-sm);
+  }
+  .btn-login:hover { border-color: var(--ink); }
+
+  /* === HERO GRID === */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+  .tile {
+    background: var(--surface);
+    border-radius: var(--r-2xl);
+    padding: 32px;
+    box-shadow: var(--sh-card);
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Big primary card — left, spans 2 rows */
+  .tile-primary {
+    grid-row: 1 / span 2;
+    background:
+      radial-gradient(110% 80% at 0% 0%, rgba(121,242,51,0.18) 0%, transparent 55%),
+      linear-gradient(180deg, #ffffff 0%, #ffffff 60%, #F9FFF4 100%);
+    padding: 48px 44px 36px;
+    display: flex; flex-direction: column;
+    gap: 22px;
+  }
+  .hero-eyebrow-light {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--primary);
+    display: inline-flex; align-items: center; gap: 12px;
+    margin-bottom: -4px;
+  }
+  .hero-eyebrow-light::before {
+    content: ""; width: 24px; height: 2px;
+    background: var(--primary); border-radius: 2px;
+  }
+  .h1-thai-row {
+    display: flex; align-items: baseline;
+    gap: 0;
+    margin: 0;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 2px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 34px;
+    letter-spacing: -0.04em;
+    color: var(--green-1000);
+    line-height: 1;
+  }
+  .logo .o-mark {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: conic-gradient(from 220deg, var(--green-100) 0deg, var(--green-300) 90deg, var(--green-500) 180deg, var(--green-1000) 270deg, var(--green-100) 360deg);
+    -webkit-mask: radial-gradient(circle at center, transparent 9px, #000 10px);
+            mask: radial-gradient(circle at center, transparent 9px, #000 10px);
+    margin-right: 4px;
+  }
+  .logo .d-mark {
+    display: inline-block;
+    width: 30px; height: 38px;
+    background: linear-gradient(160deg, var(--green-100), var(--green-500) 70%, var(--green-1000));
+    border-top-right-radius: 19px;
+    border-bottom-right-radius: 19px;
+    margin-left: -4px;
+  }
+
+  .h1-thai {
+    font-weight: 800;
+    font-size: 112px;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin: 0;
+    display: inline-block;
+  }
+  .h1-thai.hl {
+    color: var(--primary);
+    background: none;
+    -webkit-text-fill-color: var(--primary);
+    color: transparent;
+  }
+  .sub-thai {
+    font-size: 24px; font-weight: 500;
+    color: var(--ink-soft);
+    margin: 14px 0 0;
+    line-height: 1.35;
+  }
+  .sub-thai strong { font-weight: 700; color: var(--ink); }
+
+  /* Feature pills row */
+  .feat-pills {
+    display: flex; gap: 28px;
+    align-items: flex-start;
+    margin-top: 4px;
+  }
+  .feat-pill {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+    flex: 1; min-width: 0;
+    text-align: center;
+  }
+  .feat-pill .icn {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(121,242,51,0.6), rgba(0,112,76,0.12) 60%, transparent 75%),
+      #E6F4EE;
+    color: var(--primary);
+    display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: inset 0 0 0 1px rgba(0,112,76,0.15);
+  }
+  .feat-pill .t {
+    font-size: 15px; font-weight: 700;
+    color: var(--ink); line-height: 1.1;
+    margin: 0;
+  }
+  .feat-pill .d {
+    font-size: 12px; font-weight: 500;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .search-block { margin-top: auto; }
+  .search-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700; font-size: 18px;
+    color: var(--ink); margin: 0 0 10px;
+    letter-spacing: -0.01em;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .search-label .pulse {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--green-300);
+    box-shadow: 0 0 0 4px rgba(61,177,64,0.15);
+  }
+  .search-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--sh-md);
+    padding: 14px;
+  }
+  .search-card .search-label { margin: 2px 4px 12px; }
+  .search-tabs {
+    display: flex; gap: 4px;
+    border-bottom: 1px solid var(--line);
+    margin: -4px -4px 12px;
+    padding: 0 4px;
+  }
+  .tab {
+    background: transparent; border: 0;
+    padding: 10px 14px 12px;
+    font-size: 15px; font-weight: 600;
+    color: var(--muted);
+    position: relative;
+    transition: color 150ms ease;
+  }
+  .tab.active { color: var(--primary); }
+  .tab.active::after {
+    content: ""; position: absolute;
+    left: 10px; right: 10px; bottom: -1px;
+    height: 3px; border-radius: 3px 3px 0 0;
+    background: var(--primary);
+  }
+  .search-row {
+    display: flex; gap: 8px; align-items: stretch;
+  }
+  .search-input {
+    flex: 1;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--gray-200);
+    border: 1px solid transparent;
+    border-radius: var(--r-md);
+    padding: 12px 14px;
+    transition: border 150ms ease, background 150ms ease;
+  }
+  .search-input:focus-within {
+    background: #fff;
+    border-color: var(--green-500);
+  }
+  .search-input svg { color: var(--muted); flex-shrink: 0; }
+  .search-input input {
+    flex: 1; border: 0; background: transparent; outline: none;
+    font-family: inherit; font-size: 14px;
+    color: var(--ink);
+  }
+  .search-input input::placeholder { color: var(--gray-700); }
+  .btn-search {
+    background: var(--primary); color: #fff;
+    border: none; border-radius: var(--r-md);
+    padding: 0 22px;
+    font-weight: 700; font-size: 14px;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background 150ms ease;
+  }
+  .btn-search:hover { background: var(--green-600); }
+  .chips { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    padding: 8px 14px;
+    font-size: 13px; font-weight: 500;
+    color: var(--ink-soft);
+    transition: border 120ms ease, color 120ms ease;
+  }
+  .chip:hover { border-color: var(--green-500); color: var(--primary); }
+  .chip.active { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+  .chip .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gray-500); }
+
+  /* === FILTER MODAL === */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(10,38,51,0.55);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    overflow: hidden;
+    animation: backdropIn 200ms ease;
+  }
+  @keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: #fff;
+    border-radius: 24px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 88vh;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(10,38,51,0.3);
+    animation: modalIn 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modalIn {
+    from { transform: translateY(20px) scale(0.96); opacity: 0; }
+    to   { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  .modal-head {
+    background: var(--green-1000);
+    color: #fff;
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .modal-head h3 {
+    margin: 0; font-size: 20px; font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .modal-close {
+    background: rgba(255,255,255,0.08);
+    border: 0; color: #fff;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background 150ms ease;
+  }
+  .modal-close:hover { background: rgba(255,255,255,0.18); }
+  .modal-tabs {
+    display: flex; gap: 4px;
+    padding: 4px 24px 0;
+    border-bottom: 1px solid var(--line);
+    overflow: visible;
+    flex-shrink: 0;
+  }
+  .modal-tab {
+    background: transparent; border: 0;
+    padding: 14px 6px 16px;
+    margin-right: 24px;
+    font-size: 15px; font-weight: 600;
+    color: var(--muted);
+    line-height: 1.2;
+    position: relative; white-space: nowrap;
+    transition: color 150ms ease;
+  }
+  .modal-tab.active { color: var(--ink); font-weight: 700; }
+  .modal-tab.active::after {
+    content: ""; position: absolute;
+    left: 0; right: 24px; bottom: -1px;
+    height: 3px; border-radius: 3px 3px 0 0;
+    background: var(--primary);
+  }
+  .modal-body {
+    padding: 24px;
+    flex: 1; min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .modal-foot {
+    padding: 16px 24px;
+    border-top: 1px solid var(--line);
+    display: flex; gap: 12px;
+    background: var(--gray-100);
+    flex-shrink: 0;
+  }
+  .btn-cancel, .btn-apply {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: var(--r-pill);
+    font-weight: 700; font-size: 15px;
+    border: 0;
+    transition: background 150ms ease, transform 150ms ease;
+  }
+  .btn-cancel {
+    background: #fff; color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn-cancel:hover { background: var(--gray-200); }
+  .btn-apply {
+    background: var(--primary); color: #fff;
+    box-shadow: 0 4px 12px rgba(0,112,76,0.25);
+  }
+  .btn-apply:hover { background: var(--green-600); transform: translateY(-1px); }
+
+  /* Filter content */
+  .sub-chips { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+  .sub-chip {
+    padding: 10px 22px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 15px; font-weight: 600;
+    color: var(--ink-soft);
+    transition: all 150ms ease;
+  }
+  .sub-chip.active {
+    background: var(--green-1000); color: #fff;
+    border-color: var(--green-1000);
+  }
+  .sub-chip:hover:not(.active) { border-color: var(--primary); color: var(--primary); }
+
+  .opt-list { display: flex; flex-direction: column; }
+  .opt-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    font-size: 16px; color: var(--ink);
+    transition: color 150ms ease;
+  }
+  .opt-row:hover { color: var(--primary); }
+  .opt-row:last-child { border-bottom: 0; }
+  .radio {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--gray-500);
+    flex-shrink: 0;
+    position: relative;
+    transition: border-color 150ms ease;
+  }
+  .opt-row.checked .radio { border-color: var(--primary); }
+  .opt-row.checked .radio::after {
+    content: ""; position: absolute;
+    inset: 3px; border-radius: 50%;
+    background: var(--primary);
+  }
+
+  .price-row {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 20px;
+  }
+  .price-field { min-width: 0; }
+  .price-input { min-width: 0; }
+  .price-input input { min-width: 0; width: 100%; }
+  .price-field label {
+    display: block; font-size: 14px; color: var(--muted);
+    margin-bottom: 8px; font-weight: 500;
+  }
+  .price-input {
+    display: flex; align-items: center;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    padding: 12px 16px;
+    gap: 10px;
+    transition: border-color 150ms ease;
+  }
+  .price-input:focus-within, .price-input.focused { border-color: var(--primary); background: var(--primary-soft); }
+  .price-input .baht {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--gray-200); color: var(--ink-soft);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .price-input input {
+    flex: 1; border: 0; outline: none;
+    font-family: inherit; font-size: 15px;
+    color: var(--ink);
+    background: transparent;
+  }
+  .price-input input::placeholder { color: var(--gray-600); }
+  .price-input .caret { color: var(--muted); }
+
+  .preset-list {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+  .preset-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 12px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px; color: var(--ink);
+    transition: background 120ms ease;
+  }
+  .preset-row:hover { background: var(--gray-200); }
+
+  .room-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 10px;
+  }
+  .room-cell {
+    padding: 16px 12px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    font-size: 16px; font-weight: 600;
+    color: var(--ink-soft);
+    transition: all 150ms ease;
+  }
+  .room-cell.active {
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .room-cell:hover:not(.active) { border-color: var(--primary); }
+
+  .loc-list { display: flex; flex-direction: column; gap: 8px; }
+  .loc-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 15px; color: var(--ink);
+    transition: all 150ms ease;
+  }
+  .loc-row:hover { border-color: var(--primary); background: var(--primary-soft); }
+  .loc-row.checked { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+  .loc-row .ic { color: var(--muted); }
+  .loc-row.checked .ic { color: var(--primary); }
+
+  /* Two CTA tiles top right */
+  .tile-cta {
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 24px 26px;
+    min-height: 240px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    color: #fff;
+    box-shadow:
+      0 1px 0 rgba(10,38,51,0.04),
+      0 8px 18px rgba(10,38,51,0.08),
+      0 24px 48px rgba(10,38,51,0.14);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .tile-cta:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 rgba(10,38,51,0.05),
+      0 12px 24px rgba(10,38,51,0.10),
+      0 32px 64px rgba(10,38,51,0.18);
+  }
+  .tile-cta-1 {
+    box-shadow:
+      0 1px 0 rgba(6,68,61,0.10),
+      0 10px 22px rgba(6,68,61,0.20),
+      0 28px 56px rgba(6,68,61,0.28);
+  }
+  .tile-cta-1:hover {
+    box-shadow:
+      0 1px 0 rgba(6,68,61,0.12),
+      0 14px 28px rgba(6,68,61,0.24),
+      0 36px 72px rgba(6,68,61,0.34);
+  }
+  .tile-cta .tile-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+  }
+  .tile-cta .tile-overlay {
+    position: absolute; inset: 0; z-index: 0;
+  }
+  .tile-cta > * { position: relative; z-index: 1; }
+
+  .tile-cta-1 {
+    background: #0A2633;
+    border-color: transparent;
+  }
+  .tile-cta-1 .tile-bg { background-image: url('assets/hero-02.png'); }
+  .tile-cta-1 .tile-overlay {
+    background:
+      linear-gradient(95deg, rgba(10,38,51,0.92) 0%, rgba(6,68,61,0.72) 45%, rgba(6,68,61,0.18) 100%),
+      linear-gradient(180deg, transparent 60%, rgba(10,38,51,0.55) 100%);
+  }
+
+  .tile-cta-2 {
+    background: #EAF7DA;
+    border-color: transparent;
+    color: var(--ink);
+  }
+  .tile-cta-2 .tile-bg { background-image: url('assets/hero-03.png'); background-position: right center; }
+  .tile-cta-2 .tile-overlay {
+    background:
+      linear-gradient(95deg, rgba(234,247,218,0.96) 0%, rgba(234,247,218,0.72) 45%, rgba(234,247,218,0.05) 100%);
+  }
+
+  .tile-cta h3 {
+    margin: 0;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -0.01em;
+    color: inherit;
+  }
+  .tile-cta-1 h3 .em { color: var(--green-100); font-weight: 800; }
+  .tile-cta-2 h3 .em { color: var(--primary); font-weight: 800; }
+
+  .tile-cta .arrow-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    align-self: flex-start;
+    font-size: 14px; font-weight: 700;
+    padding: 11px 18px;
+    border-radius: var(--r-pill);
+    transition: background 150ms ease, gap 150ms ease, transform 150ms ease;
+  }
+  .tile-cta-1 .arrow-link {
+    color: var(--green-1000);
+    background: var(--green-100);
+  }
+  .tile-cta-1 .arrow-link:hover { background: #fff; gap: 12px; }
+  .tile-cta-2 .arrow-link {
+    color: #fff;
+    background: var(--primary);
+  }
+  .tile-cta-2 .arrow-link:hover { background: var(--green-1000); gap: 12px; }
+
+  .tile-cta .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 11px; font-weight: 700;
+    padding: 5px 12px; border-radius: var(--r-pill);
+    align-self: flex-start;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .tile-cta-1 .tag {
+    color: var(--green-1000);
+    background: var(--green-100);
+  }
+  .tile-cta-2 .tag {
+    color: #fff;
+    background: var(--primary);
+  }
+
+  /* Big hero image — spans cols 2-3, row 2 */
+  .tile-hero {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    padding: 0;
+    min-height: 360px;
+    border-radius: var(--r-2xl);
+    position: relative;
+    overflow: hidden;
+    background: var(--green-1000);
+  }
+  .hero-img {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(95deg, rgba(10,38,51,0.88) 0%, rgba(10,38,51,0.65) 38%, rgba(10,38,51,0.18) 70%, rgba(10,38,51,0.45) 100%),
+      url('assets/hero-01.png'),
+      linear-gradient(135deg, #0A2633 0%, #06443D 50%, #045242 100%);
+    background-size: cover, 60% auto, cover;
+    background-position: center, right -20px bottom -10px, center;
+    background-repeat: no-repeat;
+  }
+  .hero-img::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(45deg,
+        rgba(255,255,255,0.04) 0 1px,
+        transparent 1px 22px);
+  }
+  .hero-content {
+    position: absolute; inset: 0; z-index: 1;
+    padding: 40px 44px 44px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    color: #fff;
+  }
+  .hero-row { margin-top: auto; }
+  .hero-eyebrow {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--green-100);
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: ""; width: 28px; height: 1px; background: var(--green-100);
+  }
+  .hero-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .hero-title .accent { color: var(--green-100); }
+  .hero-row {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 24px;
+  }
+  .hero-blurb {
+    max-width: 380px;
+    font-size: 15px; line-height: 1.55;
+    color: rgba(255,255,255,0.78);
+    margin: 0;
+  }
+  .hero-stats { display: flex; gap: 28px; }
+  .hero-stat .n {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: var(--green-100); line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .hero-stat .l {
+    font-size: 12px; color: rgba(255,255,255,0.65);
+    margin-top: 4px;
+  }
+
+  /* === INFO SECTION === */
+  .info-section {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 20px;
+    margin: 48px 0 56px;
+  }
+  .info-left { display: flex; flex-direction: column; gap: 20px; }
+  .info-card {
+    border-radius: 28px;
+    padding: 36px 40px;
+    display: flex; flex-direction: column;
+    gap: 18px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    border: 1px solid transparent;
+    box-shadow:
+      0 1px 0 rgba(10,38,51,0.03),
+      0 6px 14px rgba(10,38,51,0.04),
+      0 18px 40px rgba(10,38,51,0.06);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+  .info-card:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 rgba(10,38,51,0.05),
+      0 10px 22px rgba(10,38,51,0.08),
+      0 28px 56px rgba(10,38,51,0.10);
+  }
+  .info-card-1 {
+    background: linear-gradient(180deg, #F3FAEC 0%, #EBF6DE 100%);
+    border-color: rgba(6,68,61,0.06);
+  }
+  .info-card-2 {
+    background: linear-gradient(180deg, #F4F5F1 0%, #ECEEE7 100%);
+    border-color: rgba(10,38,51,0.06);
+  }
+  .info-card .info-body {
+    display: flex; flex-direction: column; gap: 18px;
+    max-width: 70%;
+    position: relative; z-index: 2;
+  }
+  .info-card h3 { max-width: none; }
+  .info-card .info-art {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 190px; height: 160px;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+  .info-card .info-art svg { width: 100%; height: 100%; display: block; }
+
+  .info-card h3 {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 16px;
+    line-height: 1.15;
+  }
+  .info-card h3 .num {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px; font-weight: 700;
+    color: var(--ink);
+    background: #ffffff;
+    width: 46px; height: 46px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+    border: 1.5px solid rgba(10,38,51,0.10);
+    box-shadow: 0 2px 4px rgba(10,38,51,0.04);
+    flex-shrink: 0;
+  }
+  .info-card-1 h3 .num { border-color: rgba(6,68,61,0.14); color: var(--green-1000); }
+
+  .info-card p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 15px; line-height: 1.7;
+  }
+  .info-card p strong { color: var(--green-1000); font-weight: 700; }
+
+  .info-card .features {
+    display: flex; flex-direction: column;
+    gap: 10px; margin-top: 4px;
+  }
+  .info-card .feat {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 15px; color: var(--ink);
+    font-weight: 500;
+  }
+  .info-card .feat .ic {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--primary); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 1px 2px rgba(0,112,76,0.25);
+  }
+  .info-card-2 .feat .ic {
+    background: transparent;
+    color: var(--primary);
+    box-shadow: inset 0 0 0 1.5px var(--primary);
+  }
+
+  .read-more {
+    align-self: flex-start; margin-top: 10px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600;
+    padding: 12px 22px;
+    border-radius: var(--r-pill);
+    transition: background 180ms ease, color 180ms ease, gap 180ms ease, transform 180ms ease;
+    cursor: pointer;
+  }
+  .info-card-1 .read-more {
+    color: #fff;
+    background: var(--green-1000);
+    border: 1px solid var(--green-1000);
+  }
+  .info-card-1 .read-more:hover { background: var(--ink); border-color: var(--ink); gap: 12px; }
+  .info-card-2 .read-more {
+    color: var(--green-1000);
+    background: transparent;
+    border: 1.5px solid var(--green-1000);
+  }
+  .info-card-2 .read-more:hover { background: var(--green-1000); color: #fff; gap: 12px; }
+
+  @media (max-width: 720px) {
+    .info-card { padding: 28px 24px; }
+    .info-card .info-body { max-width: 100%; }
+    .info-card .info-art { opacity: 0.25; width: 160px; height: 140px; right: 10px; }
+    .info-card h3 { font-size: 24px; }
+  }
+
+  /* Who we are */
+  .who {
+    background: var(--green-1000);
+    color: #fff;
+    border-radius: var(--r-2xl);
+    padding: 36px 40px;
+    position: relative;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    box-shadow: var(--sh-lg);
+  }
+  .who::before {
+    content: ""; position: absolute;
+    right: -120px; top: -80px;
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, var(--green-500) 0%, transparent 70%);
+    opacity: 0.5;
+  }
+  .who::after {
+    content: ""; position: absolute;
+    left: -80px; bottom: -80px;
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, var(--green-100) 0%, transparent 70%);
+    opacity: 0.2;
+  }
+  .who-inner { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; gap: 18px;}
+  .who h2 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    font-size: 44px; font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .who h2 .accent { color: var(--green-100); }
+  .who-lead {
+    font-size: 16px; line-height: 1.65;
+    color: rgba(255,255,255,0.78);
+    max-width: 540px;
+    margin: 0;
+  }
+  .who-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 14px; margin-top: 12px;
+  }
+  .who-cell {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--r-md);
+    padding: 16px;
+  }
+  .who-cell .icn {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: rgba(121,242,51,0.12); color: var(--green-100);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 10px;
+  }
+  .who-cell .t {
+    font-size: 14px; font-weight: 600; color: #fff;
+    margin: 0 0 4px;
+  }
+  .who-cell .d {
+    font-size: 12.5px; color: rgba(255,255,255,0.6);
+    margin: 0; line-height: 1.5;
+  }
+  .who-bottom {
+    margin-top: auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .who-bottom .nums {
+    display: flex; gap: 28px;
+  }
+  .who-bottom .n {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 26px; font-weight: 800;
+    color: #fff; line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .who-bottom .l {
+    font-size: 12px; color: rgba(255,255,255,0.55);
+    margin-top: 4px;
+  }
+  .who-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-100); color: var(--green-1000);
+    font-weight: 700; font-size: 14px;
+    padding: 12px 20px;
+    border-radius: var(--r-pill);
+    transition: background 150ms ease;
+  }
+  .who-cta:hover { background: #fff; }
+
+  /* === LATEST PROJECTS === */
+  .projects-head {
+    display: flex; align-items: end; justify-content: space-between;
+    margin-bottom: 22px;
+  }
+  .projects-head h2 {
+    margin: 0; font-size: 32px; font-weight: 700;
+    letter-spacing: -0.01em; color: var(--ink);
+  }
+  .projects-head h2 .latin { font-weight: 800; }
+  .projects-head .lead {
+    margin: 6px 0 0; color: var(--muted);
+    font-size: 14px;
+  }
+  .see-more {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600;
+    color: var(--primary);
+    padding: 10px 18px;
+    border-radius: var(--r-pill);
+    border: 1px solid var(--line);
+    background: #fff;
+    transition: all 150ms ease;
+  }
+  .see-more:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  .pcard {
+    background: #fff;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: var(--sh-card);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+    display: flex; flex-direction: column;
+  }
+  .pcard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 48px rgba(10,38,51,0.10), 0 6px 12px rgba(10,38,51,0.06);
+  }
+  .pcard .img {
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    border-radius: 0;
+    position: relative;
+  }
+  .pcard .tag {
+    position: absolute;
+    left: 12px; bottom: 12px; z-index: 2;
+    background: var(--green-100);
+    color: var(--green-1000);
+    font-size: 11px; font-weight: 700;
+    padding: 6px 12px;
+    border-radius: var(--r-pill);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    box-shadow: 0 2px 6px rgba(10,38,51,0.18);
+  }
+  .pcard .fav {
+    position: absolute; top: 12px; right: 12px; z-index: 2;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(255,255,255,0.92);
+    border: 0; display: inline-flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(6px);
+    color: var(--ink-soft);
+    transition: color 150ms ease, transform 150ms ease;
+  }
+  .pcard .fav:hover { color: var(--green-500); transform: scale(1.08); }
+  .pcard .meta {
+    padding: 16px 18px 18px;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .pcard .ptype {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px; font-weight: 600;
+    color: var(--primary);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .pcard h4 {
+    margin: 0;
+    font-size: 17px; font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .pcard .loc {
+    display: flex; align-items: center; gap: 6px;
+    color: var(--muted); font-size: 13px;
+  }
+  .pcard .stats {
+    display: flex; gap: 14px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+    color: var(--ink-soft); font-size: 12px;
+  }
+  .pcard .stats span { display: inline-flex; align-items: center; gap: 4px; }
+  .pcard .price-row {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding-top: 10px; border-top: 1px solid var(--line);
+    margin-top: 2px;
+  }
+  .pcard .price-row .from {
+    font-size: 11px; color: var(--muted);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .pcard .price {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+  }
+  .pcard .price .unit { color: var(--muted); font-weight: 500; font-size: 12px; margin-left: 2px; }
+
+  /* image tints to vary cards */
+  .img-1 { background: linear-gradient(135deg, #FFB37A 0%, #E07A4B 60%, #6B3621 100%); }
+  .img-2 { background: linear-gradient(160deg, #A6C8FF 0%, #6488C0 60%, #2A3F70 100%); }
+  .img-3 { background: linear-gradient(135deg, #C8E6A0 0%, #6FA56B 60%, #2C5840 100%); }
+  .img-4 { background: linear-gradient(135deg, #FFE4B0 0%, #C9A06B 60%, #5C3D1F 100%); }
+  .img-1, .img-2, .img-3, .img-4 {
+    background-blend-mode: normal;
+  }
+  .img-overlay {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(135deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 18px),
+      linear-gradient(180deg, transparent 50%, rgba(10,38,51,0.35) 100%);
+  }
+  .img-label {
+    position: absolute; top: 12px; left: 12px;
+    font-family: 'Plus Jakarta Sans', monospace;
+    font-size: 10.5px; font-weight: 700;
+    color: rgba(255,255,255,0.88);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(10,38,51,0.4);
+    padding: 4px 8px;
+    border-radius: 6px;
+    backdrop-filter: blur(4px);
+  }
+
+  /* footer note */
+  .foot {
+    margin-top: 56px;
+    padding: 20px 0;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  @media (max-width: 1100px) {
+    .hero-grid { grid-template-columns: 1fr 1fr; }
+    .tile-primary { grid-row: 1; grid-column: 1 / span 2; }
+    .tile-hero { grid-row: 3; grid-column: 1 / span 2; }
+    .h1-thai { font-size: 64px; }
+    .hero-title { font-size: 48px; }
+    .info-section { grid-template-columns: 1fr; }
+    .projects { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+
+
+
+
+
+
+const { useState } = React;
+
+// ─── Icons ───
+const Icon = {
+  phone: (p) => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.86 19.86 0 0 1 2.06 4.18 2 2 0 0 1 4.05 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7a2 2 0 0 1 1.72 2z" /></svg>,
+  chat: (p) => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>,
+  search: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>,
+  home: (p) => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>,
+  coin: (p) => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><circle cx="12" cy="12" r="9" /><path d="M12 7v10M9 10h5a2 2 0 0 1 0 4H9a2 2 0 0 0 0 4h6" /></svg>,
+  pin: (p) => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>,
+  arrow: (p) => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" {...p}><line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" /></svg>,
+  check: (p) => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" {...p}><polyline points="20 6 9 17 4 12" /></svg>,
+  heart: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>,
+  bed: (p) => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M2 17v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" /><path d="M2 17h20v3H2zM6 10V8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" /></svg>,
+  bath: (p) => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M9 6V5a2 2 0 0 1 4 0v1M3 11h18v3a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4v-3zM5 18v2M19 18v2" /></svg>,
+  area: (p) => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18M9 3v18" /></svg>,
+  shield: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>,
+  bolt: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg>,
+  handshake: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M11 17l-2 2-3-3M14 14l3 3 4-4M3 11l5-5 3 3 4-4 6 6-3 3M9 11l4 4" /></svg>,
+  chart: (p) => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...p}><path d="M3 3v18h18" /><path d="M7 14l4-4 4 4 6-6" /><polyline points="17 8 21 8 21 12" /></svg>
+};
+
+// ─── Top Nav ───
+function TopNav() {
+  return (
+    <div className="topbar">
+      <a href="#" className="brand-link" aria-label="Ownd home">
+        <img src="assets/ownd-logo.png" alt="Ownd — Own your future, today." className="brand-img" />
+      </a>
+      <div className="nav-actions">
+        <button className="btn btn-dark"><Icon.phone /> Book a Call</button>
+        <button className="btn btn-line"><Icon.chat /> LINE</button>
+        <button className="btn btn-login">Login</button>
+      </div>
+    </div>);
+
+}
+
+// ─── Logo (Ownd wordmark) ───
+function Logo() {
+  return (
+    <div className="hero-logo" aria-label="Ownd">
+      <img src="assets/ownd-logo.png" alt="Ownd" />
+    </div>);
+
+}
+
+// ─── Filter Modal ───
+const PROPERTY_KINDS = {
+  residential: [
+    'อสังหาฯ เพื่ออยู่อาศัยทั้งหมด',
+    'คอนโด',
+    'บ้านเดี่ยว',
+    'บ้านแฝด',
+    'วิลล่า / Pool Villa',
+    'ทาวน์เฮ้าส์',
+    'ที่ดิน',
+    'อพาร์ทเมนท์'
+  ],
+  commercial: [
+    'อสังหาฯ เชิงพาณิชย์ทั้งหมด',
+    'อาคารสำนักงาน / Office',
+    'อาคารพาณิชย์',
+    'โรงแรม / รีสอร์ท',
+    'โรงงาน / โกดัง'
+  ]
+};
+const PROPERTY_KINDS_ALL = [
+  'อสังหาฯ เพื่ออยู่อาศัยทั้งหมด',
+  'คอนโด',
+  'บ้านเดี่ยว',
+  'บ้านแฝด',
+  'วิลล่า / Pool Villa',
+  'ทาวน์เฮ้าส์',
+  'ที่ดิน',
+  'อพาร์ทเมนท์',
+  'อาคารสำนักงาน / Office',
+  'อาคารพาณิชย์',
+  'โรงแรม / รีสอร์ท',
+  'โรงงาน / โกดัง'
+];
+const PRICE_PRESETS = ['ไม่ระบุ','500,000','1,000,000','1,500,000','2,000,000','3,000,000','5,000,000','10,000,000','20,000,000'];
+const LOCATIONS = [
+  'กรุงเทพฯ — สุขุมวิท',
+  'กรุงเทพฯ — ทองหล่อ / เอกมัย',
+  'กรุงเทพฯ — พระโขนง / บางนา',
+  'นนทบุรี',
+  'ชลบุรี',
+  'ภูเก็ต',
+  'เชียงใหม่',
+  'ชลบุรี',
+  'หัวหิน / พัทยา / จอมเทียน'
+];
+
+function FilterModal({ open, onClose, initialTab = 'type' }) {
+  const [tab, setTab] = useState(initialTab);
+  const [kind, setKind] = useState('residential');
+  const [typePick, setTypePick] = useState(0);
+  const [bedrooms, setBedrooms] = useState('any');
+  const [locPick, setLocPick] = useState(null);
+
+  React.useEffect(() => { if (open) setTab(initialTab); }, [open, initialTab]);
+  React.useEffect(() => {
+    if (open) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [open]);
+
+  if (!open) return null;
+
+  const TABS = [
+    { key: 'type', label: 'ประเภททรัพย์' },
+    { key: 'price', label: 'ราคา' },
+    { key: 'loc', label: 'ทำเล' }
+  ];
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <div className="modal-head">
+          <h3>ตัวกรอง</h3>
+          <button className="modal-close" onClick={onClose} aria-label="close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round"><line x1="6" y1="6" x2="18" y2="18" /><line x1="18" y1="6" x2="6" y2="18" /></svg>
+          </button>
+        </div>
+        <div className="modal-tabs">
+          {TABS.map(t => (
+            <button key={t.key} className={`modal-tab ${tab === t.key ? 'active' : ''}`} onClick={() => setTab(t.key)}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="modal-body">
+          {tab === 'type' && (
+            <div className="opt-list">
+              {PROPERTY_KINDS_ALL.map((label, i) => (
+                <label key={i} className={`opt-row ${typePick === i ? 'checked' : ''}`} onClick={() => setTypePick(i)}>
+                  <span className="radio"></span> {label}
+                </label>
+              ))}
+            </div>
+          )}
+
+          {tab === 'price' && (
+            <PriceTab />
+          )}
+
+          {tab === 'loc' && (
+            <div className="loc-list">
+              {LOCATIONS.map((loc, i) => (
+                <div key={i} className={`loc-row ${locPick === i ? 'checked' : ''}`} onClick={() => setLocPick(i)}>
+                  <span className="ic"><Icon.pin /></span> {loc}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="modal-foot">
+          <button className="btn-cancel" onClick={onClose}>ยกเลิก</button>
+          <button className="btn-apply" onClick={onClose}>ปรับตามเงื่อนไข</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PriceTab() {
+  const [target, setTarget] = useState(null);
+  const [vals, setVals] = useState({ min: '', max: '' });
+  return (
+    <>
+      <div className="price-row">
+        <div className="price-field">
+          <label>ต่ำสุด</label>
+          <div className={`price-input ${target === 'min' ? 'focused' : ''}`} onClick={() => setTarget(target === 'min' ? null : 'min')}>
+            <span className="baht">฿</span>
+            <input type="text" placeholder="ขั้นต่ำ" value={vals.min} onChange={(e) => setVals({ ...vals, min: e.target.value })} onFocus={() => setTarget('min')} />
+            <span className="caret">▾</span>
+          </div>
+        </div>
+        <div className="price-field">
+          <label>สูงสุด</label>
+          <div className={`price-input ${target === 'max' ? 'focused' : ''}`} onClick={() => setTarget(target === 'max' ? null : 'max')}>
+            <span className="baht">฿</span>
+            <input type="text" placeholder="สูงสุด" value={vals.max} onChange={(e) => setVals({ ...vals, max: e.target.value })} onFocus={() => setTarget('max')} />
+            <span className="caret">▾</span>
+          </div>
+        </div>
+      </div>
+      {target ? (
+        <>
+          <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 8, fontWeight: 600 }}>เลือกจาก "{target === 'min' ? 'ต่ำสุด' : 'สูงสุด'}"</div>
+          <div className="preset-list">
+            {PRICE_PRESETS.map((p, i) => {
+              const selected = vals[target] === p || (p === 'ไม่ระบุ' && !vals[target]);
+              return (
+                <div key={i} className="preset-row" onClick={() => setVals({ ...vals, [target]: p === 'ไม่ระบุ' ? '' : p })}>
+                  <span className="radio" style={{ borderColor: selected ? 'var(--primary)' : 'var(--gray-500)', position: 'relative' }}>
+                    {selected && <span style={{ position: 'absolute', inset: 3, borderRadius: '50%', background: 'var(--primary)' }} />}
+                  </span> {p}
+                </div>
+              );
+            })}
+          </div>
+        </>
+      ) : (
+        <div style={{
+          textAlign: 'center', padding: '32px 16px',
+          color: 'var(--muted)', fontSize: 14,
+          background: 'var(--gray-100)',
+          borderRadius: 16,
+          border: '1px dashed var(--line)'
+        }}>
+          กดที่ช่อง <strong style={{ color: 'var(--ink)' }}>ต่ำสุด</strong> หรือ <strong style={{ color: 'var(--ink)' }}>สูงสุด</strong> เพื่อเลือกราคา
+        </div>
+      )}
+    </>
+  );
+}
+
+// ─── Hero Primary tile (left, with search) ───
+function HeroPrimary() {
+  const [tab, setTab] = useState('buy');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [filterTab, setFilterTab] = useState('type');
+  const openFilter = (which) => { setFilterTab(which); setFilterOpen(true); };
+  return (
+    <div className="tile tile-primary">
+      <span className="hero-eyebrow-light latin">Welcome to Ownd Sub</span>
+
+      <div className="hero-headline">
+        <h1 className="h1-thai-row">
+          <span className="h1-thai">หา</span>
+          <span className="h1-thai hl">บ้าน</span>
+        </h1>
+        <p className="sub-thai"><strong>เช่า–เพื่อซื้อ</strong><br />เช่าไปก่อน ถ้าชอบก็ซื้อ !!</p>
+      </div>
+
+      <div className="feat-pills">
+        <div className="feat-pill">
+          <span className="icn"><Icon.home width="24" height="24" /></span>
+          <p className="t">อยู่ง่าย</p>
+          <p className="d">เริ่มต้นไม่ยาก</p>
+        </div>
+        <div className="feat-pill">
+          <span className="icn"><Icon.shield width="24" height="24" /></span>
+          <p className="t">มั่นใจ</p>
+          <p className="d">ปลอดภัย 100%</p>
+        </div>
+        <div className="feat-pill">
+          <span className="icn"><Icon.chart width="24" height="24" /></span>
+          <p className="t">คุ้มค่า</p>
+          <p className="d">เป็นเจ้าของได้จริง</p>
+        </div>
+      </div>
+
+      <div className="search-block">
+        <div className="search-label">
+          <span className="pulse"></span>
+          <span className="latin">Rent to Own</span>
+          <span style={{ color: 'var(--muted)', fontWeight: 500, fontSize: 14 }}>(เช่าเพื่อซื้อ)</span>
+        </div>
+        <div className="search-card">
+          <div className="search-tabs">
+            <button className={`tab ${tab === 'buy' ? 'active' : ''}`} onClick={() => setTab('buy')}>Rent to Own (เช่าเพื่อซื้อ)</button>
+          </div>
+          <div className="search-row">
+            <label className="search-input">
+              <Icon.search />
+              <input type="text" placeholder="ค้นหาทำเล เช่น ภูเก็ต หรือโครงการคอนโด Ivy Thonglor" />
+            </label>
+            <button className="btn-search"><Icon.search /> ค้นหา</button>
+          </div>
+          <div className="chips">
+            <button className="chip" onClick={() => openFilter('type')}><Icon.home /> ประเภททรัพย์ <span style={{ color: 'var(--muted)' }}>▾</span></button>
+            <button className="chip" onClick={() => openFilter('price')}><Icon.coin /> ราคา <span style={{ color: 'var(--muted)' }}>▾</span></button>
+            <button className="chip" onClick={() => openFilter('loc')}><Icon.pin /> ทำเล <span style={{ color: 'var(--muted)' }}>▾</span></button>
+          </div>
+        </div>
+      </div>
+      <FilterModal open={filterOpen} onClose={() => setFilterOpen(false)} initialTab={filterTab} />
+    </div>);
+}
+
+// ─── Hero CTA tiles (top middle/right) ───
+function CtaTile1() {
+  return (
+    <div className="tile tile-cta tile-cta-1">
+      <div className="tile-bg"></div>
+      <div className="tile-overlay"></div>
+      <span className="tag">For Investors</span>
+      <h3>
+        ลงทุนในอสังหาริมทรัพย์<br />
+        <span className="em">Ownd Matching</span><br />
+        รับค่าเช่าล่วงหน้า คลิก!!
+      </h3>
+      <a className="arrow-link">เริ่มลงทุน <Icon.arrow /></a>
+    </div>);
+
+}
+function CtaTile2() {
+  return (
+    <div className="tile tile-cta tile-cta-2">
+      <div className="tile-bg"></div>
+      <div className="tile-overlay"></div>
+      <span className="tag">For Owners</span>
+      <h3>
+        มีบ้านอยู่แล้ว<br />
+        อยากปล่อยเช่าเพื่อซื้อ<br />
+        <span className="em">ลงประกาศกับเรา!</span>
+      </h3>
+      <a className="arrow-link">ลงประกาศฟรี <Icon.arrow /></a>
+    </div>);
+
+}
+
+// ─── Hero image tile ───
+function HeroImage() {
+  return (
+    <div className="tile tile-hero">
+      <div className="hero-img"></div>
+      <div className="hero-content">
+        <div>
+          <span className="hero-eyebrow">Marketplace · Thailand</span>
+          <h2 className="hero-title">Own your<br /><span className="accent">future today</span></h2>
+        </div>
+        <div className="hero-row">
+          <p className="hero-blurb">
+            แพลตฟอร์มอสังหาฯ ที่เชื่อมโยงนักลงทุน เจ้าของบ้าน และผู้ที่อยากมีบ้านเป็นของตัวเอง ด้วยโมเดล Rent-to-Own
+          </p>
+          <div className="hero-stats">
+            <div className="hero-stat"><div className="n">12K+</div><div className="l">ทรัพย์ในระบบ</div></div>
+            <div className="hero-stat"><div className="n">3.8K</div><div className="l">เจ้าของบ้าน</div></div>
+            <div className="hero-stat"><div className="n">97%</div><div className="l">ผ่านการตรวจสอบ</div></div>
+          </div>
+        </div>
+      </div>
+    </div>);
+
+}
+
+// ─── Hero grid wrapper ───
+function HeroGrid() {
+  return (
+    <div className="hero-grid">
+      <HeroPrimary />
+      <CtaTile1 />
+      <CtaTile2 />
+      <HeroImage />
+    </div>);
+
+}
+
+// ─── Info section ───
+function InfoSection() {
+  return (
+    <div className="info-section">
+      <div className="info-left">
+        <div className="info-card info-card-1">
+          <div className="info-art" aria-hidden="true">
+            <svg viewBox="0 0 220 180" fill="none" stroke="#5BA45A" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <g stroke="#5BA45A" strokeWidth="1.4" opacity="0.7">
+                <path d="M30 30 L30 42 M24 36 L36 36" />
+                <path d="M200 24 L200 34 M195 29 L205 29" />
+                <path d="M192 96 L192 104 M188 100 L196 100" />
+                <path d="M50 140 L50 148 M46 144 L54 144" />
+              </g>
+              <path d="M70 158 L70 92 L130 50 L190 92 L190 158 Z" />
+              <path d="M62 98 L130 48 L198 98" strokeWidth="1.8" />
+              <path d="M118 158 L118 124 Q130 116 142 124 L142 158" />
+              <rect x="82" y="108" width="22" height="22" rx="2" />
+              <path d="M93 108 L93 130 M82 119 L104 119" />
+              <rect x="156" y="108" width="20" height="16" rx="2" />
+              <path d="M166 108 L166 124" />
+              <path d="M104 158 Q98 144 108 138 Q118 144 112 158" />
+              <path d="M108 158 L108 142" />
+            </svg>
+          </div>
+          <div className="info-body">
+            <h3><span className="num latin">01</span> เช่าเพื่อซื้อ คืออะไร?</h3>
+            <p>
+              โมเดลใหม่ของการเป็นเจ้าของบ้าน เริ่มต้นด้วยการ <strong>เช่าไปก่อน</strong> โดยที่ค่าเช่าบางส่วนจะถูกสะสมเป็นเงินดาวน์ เมื่อพร้อมจริงค่อยตัดสินใจซื้อในราคาที่ตกลงกันไว้ตั้งแต่ต้น
+            </p>
+            <div className="features">
+              <div className="feat"><span className="ic"><Icon.check /></span> ทดลองอยู่ก่อนตัดสินใจซื้อ</div>
+              <div className="feat"><span className="ic"><Icon.check /></span> สะสมค่าเช่าเป็นเงินดาวน์</div>
+              <div className="feat"><span className="ic"><Icon.check /></span> ล็อกราคาขายตั้งแต่วันแรก</div>
+            </div>
+            <a className="read-more">อ่านเพิ่มเติม <Icon.arrow /></a>
+          </div>
+        </div>
+
+        <div className="info-card info-card-2">
+          <div className="info-art" aria-hidden="true">
+            <svg viewBox="0 0 220 180" fill="none" stroke="#7E8A82" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              <g stroke="#7E8A82" strokeWidth="1.4" opacity="0.7">
+                <path d="M28 28 L28 38 M23 33 L33 33" />
+                <path d="M200 32 L200 42 M195 37 L205 37" />
+                <path d="M30 130 L30 138 M26 134 L34 134" />
+              </g>
+              <rect x="50" y="30" width="120" height="130" rx="6" />
+              <path d="M76 78 L76 64 L92 54 L108 64 L108 78 Z" />
+              <rect x="86" y="68" width="6" height="10" />
+              <path d="M118 60 L156 60" />
+              <path d="M118 70 L150 70" />
+              <path d="M64 96 L156 96" />
+              <path d="M64 106 L140 106" />
+              <path d="M64 116 L156 116" />
+              <circle cx="148" cy="138" r="10" />
+              <path d="M143 138 L147 142 L153 134" strokeWidth="1.8" />
+              <g transform="translate(170 110)">
+                <path d="M0 40 L0 28" />
+                <path d="M8 40 L8 20" />
+                <path d="M16 40 L16 10" />
+                <path d="M24 40 L24 24" />
+                <path d="M-2 42 L26 42" />
+              </g>
+            </svg>
+          </div>
+          <div className="info-body">
+            <h3><span className="num latin">02</span> Subscription คืออะไร?</h3>
+            <p>
+              โปรแกรมสำหรับเจ้าของอสังหาฯที่ต้องการปล่อยเช่าขาย ผ่านระบบ <strong>OWND</strong> เชื่อมต่อเจ้าของอสังหาฯเข้ากับผู้ที่สนใจเช่าเพื่อซื้อ ให้อสังหาฯของคุณถูกมองเห็นโดยกลุ่มลูกค้าที่มีความตั้งใจซื้อจริง
+            </p>
+            <div className="features">
+              <div className="feat"><span className="ic"><Icon.check /></span> ลงประกาศทรัพย์ในระบบ Ownd</div>
+              <div className="feat"><span className="ic"><Icon.check /></span> เชื่อมต่อกับผู้ที่สนใจเช่าเพื่อซื้อ</div>
+              <div className="feat"><span className="ic"><Icon.check /></span> เพิ่มโอกาสปล่อยเช่าและขายอสังหาฯ</div>
+            </div>
+            <a className="read-more">อ่านเพิ่มเติม <Icon.arrow /></a>
+          </div>
+        </div>
+      </div>
+
+      <div className="who">
+        <div className="who-inner">
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 12, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'var(--green-100)', fontFamily: 'Plus Jakarta Sans,sans-serif' }}>
+            <span style={{ width: 24, height: 1, background: 'var(--green-100)' }}></span> About Ownd
+          </span>
+          <h2>Who we <span className="accent">are</span></h2>
+          <p className="who-lead" style={{ width: "800px" }}>
+            Matching Platform สําหรับการเช่าเพื่อซื้ออสังหาริมทรัพย์  <strong style={{ color: '#fff' }}>เชื่อม "นักลงทุนอสังหาฯ" กับ "คนที่อยากมีบ้านแต่ยังไม่พร้อมสำหรับระบบสินเชื่อ"</strong>  นักลงทุนซื้อบ้านเพื่อปล่อยเช่าโดยมี ผู้เช่าที่ผ่านการคัดกรองรออยู่ในระบบ พร้อมเส้นทางการซื้อต่อที่ชัดเจนตั้งแต่วันแรก โอนดีได้รับการสนับสนุนจาก Angel Investor จาก Silicon Valley, สหรัฐอเมริกา
+          </p>
+          <div className="who-grid">
+            <div className="who-cell">
+              <span className="icn"><Icon.shield /></span>
+              <p className="t">Verified Listings</p>
+              <p className="d" style={{ height: "36px" }}>ทุกทรัพย์สินผ่านการคัดกรองด้วนระบบ มีเอกสารและการเยี่ยมชมตรจสอบจริง</p>
+            </div>
+            <div className="who-cell">
+              <span className="icn"><Icon.handshake /></span>
+              <p className="t">Fair Contract</p>
+              <p className="d">สัญญาออกแบบเพื่อปกป้องทั้งนักลงทุนและผู้เช่าซื้อ กติกาชัดเจน ไม่มีค่าใช้จ่ายแฝง ตรวจสอบโดยทีมกฎหมาย</p>
+            </div>
+            <div className="who-cell">
+              <span className="icn"><Icon.bolt /></span>
+              <p className="t">Fast Matching</p>
+              <p className="d">ระบบ AI ช่วยจับคู่ผู้เช่าเพื่อซื้อกับนักลงทุน โดยมีผู้เช่าที่ผ่านการคัดกรองรออยู่ในระบบแล้ว</p>
+            </div>
+          </div>
+          <div className="who-bottom">
+            <div className="nums">
+              <div><div className="n">฿4.2B</div><div className="l">มูลค่าทรัพย์ในระบบ</div></div>
+              <div><div className="n">28</div><div className="l">จังหวัดที่ให้บริการ</div></div>
+              <div><div className="n">4.9★</div><div className="l">คะแนนจากผู้ใช้</div></div>
+            </div>
+            <a className="who-cta">รู้จักเราเพิ่มเติม <Icon.arrow /></a>
+          </div>
+        </div>
+      </div>
+    </div>);
+
+}
+
+// ─── Project Cards ───
+const PROJECTS = [
+{ tag: 'โครงการใหม่', type: 'Condominium', title: 'Ivy Thonglor 23', loc: 'ทองหล่อ, กรุงเทพฯ', bed: '1–2', bath: 1, area: '32–58', price: '4.9M', img: 'img-1', label: 'BANGKOK · HIGH-RISE' },
+{ tag: 'โครงการใหม่', type: 'High-Rise Condo', title: 'Aster Sukhumvit 71', loc: 'พระโขนง, กรุงเทพฯ', bed: '1–3', bath: '1–2', area: '30–82', price: '3.5M', img: 'img-2', label: 'TOWER · SUKHUMVIT' },
+{ tag: 'โครงการใหม่', type: 'Pool Villa', title: 'The Greenhouse Phuket', loc: 'เชิงทะเล, ภูเก็ต', bed: 3, bath: 4, area: '180', price: '18.2M', img: 'img-3', label: 'POOL VILLA · PHUKET' },
+{ tag: 'โครงการใหม่', type: 'Single House', title: 'Centro Bangna Km.7', loc: 'บางนา, กรุงเทพฯ', bed: 4, bath: 3, area: '212', price: '9.8M', img: 'img-4', label: 'HOUSE · BANGNA' }];
+
+
+function ProjectCard({ p }) {
+  return (
+    <article className="pcard">
+      <div className={`img ph ${p.img}`} style={{ borderRadius: 0 }}>
+        <div className="img-overlay"></div>
+        <span className="img-label">{p.label}</span>
+        <span className="tag">{p.tag}</span>
+        <button className="fav" aria-label="favorite"><Icon.heart /></button>
+      </div>
+      <div className="meta">
+        <span className="ptype">{p.type}</span>
+        <h4>{p.title}</h4>
+        <div className="loc"><Icon.pin /> {p.loc}</div>
+        <div className="stats">
+          <span><Icon.bed /> {p.bed} ห้องนอน</span>
+          <span><Icon.bath /> {p.bath} ห้องน้ำ</span>
+          <span><Icon.area /> {p.area} ตร.ม.</span>
+        </div>
+        <div className="price-row">
+          <span className="from">เริ่มต้น</span>
+          <span className="price">฿{p.price}<span className="unit">/ ยูนิต</span></span>
+        </div>
+      </div>
+    </article>);
+
+}
+
+function LatestProjects() {
+  return (
+    <section data-screen-label="Latest Projects">
+      <div className="projects-head">
+        <div>
+          <h2>โครงการล่าสุด <span className="latin">Subscription</span></h2>
+          <p className="lead">ทรัพย์คุณภาพที่เพิ่งเปิดให้สมาชิก Ownd Subscription เข้าถึงก่อนใคร</p>
+        </div>
+        <a className="see-more">เพิ่มเติม <Icon.arrow /></a>
+      </div>
+      <div className="projects">
+        {PROJECTS.map((p, i) => <ProjectCard key={i} p={p} />)}
+      </div>
+    </section>);
+
+}
+
+function App() {
+  return (
+    <div className="page" data-screen-label="Ownd Homepage">
+      <TopNav />
+      <HeroGrid />
+      <InfoSection />
+      <LatestProjects />
+      <div className="foot">
+        <span>© 2026 Ownd. All rights reserved.</span>
+        <span className="latin">Own your future today.</span>
+      </div>
+    </div>);
+
+}
+
+ReactDOM.createRoot(document.getElementById('app')).render(<App />);
+
+</script>
+</body>
+</html>
